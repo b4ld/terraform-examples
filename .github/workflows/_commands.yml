@@ -10,7 +10,6 @@ jobs:
         uses: peter-evans/slash-command-dispatch@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          permission: write
           commands: fullci
   # reviewAndApprove:
   #   runs-on: ubuntu-latest
