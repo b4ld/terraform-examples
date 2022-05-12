@@ -6,7 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for Command
-        id: command2
         uses: xt0rted/slash-command-action@v1.1.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -32,7 +31,7 @@ jobs:
       - name: Add reaction on success
         uses: peter-evans/create-or-update-comment@v2
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           reaction-type: hooray
