@@ -9,7 +9,7 @@ jobs:
       - name: Perform Cloud Tests
         uses: peter-evans/slash-command-dispatch@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           commands: fds
   # reviewAndApprove:
   #   runs-on: ubuntu-latest
