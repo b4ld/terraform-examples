@@ -1,7 +1,7 @@
-name: fds-command
+name: approve-command
 on:
   repository_dispatch:
-    types: [fds-command]
+    types: [approve-command]
 jobs:
   approve:
     runs-on: ubuntu-latest
