@@ -22,7 +22,7 @@ jobs:
         uses: juliangruber/merge-pull-request-action@v1.1.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          number: ${{ github.event.client_payload.github.payload.issue.number }}
+          number: ${{ github.event.issue.number }}
           method: merge
   commentFeedback:
     runs-on: ubuntu-latest
