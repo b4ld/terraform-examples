@@ -3,7 +3,7 @@ on:
   issue_comment:
     types: [created]
 jobs:
-  cloudTests:
+  full-ci:
     runs-on: ubuntu-latest
     steps:
       - name: Perform Cloud Tests
