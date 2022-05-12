@@ -1,8 +1,8 @@
 on: issue_comment
-name: Issue Comments
+name: Issue Comments for full CI run
 jobs:
   check_comments:
-    name: Check comments for /approve
+    name: Check comments for /test
     runs-on: ubuntu-latest
     steps:
       - name: Check for Command
@@ -10,7 +10,7 @@ jobs:
         uses: xt0rted/slash-command-action@v1
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          command: approve
+          command: test
           reaction: "true"
           reaction-type: "eyes"
           allow-edits: "false"
