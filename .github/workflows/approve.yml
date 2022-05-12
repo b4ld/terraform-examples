@@ -15,7 +15,7 @@ jobs:
           allow-edits: "false"
           permission-level: admin
       - name: condition
-        run: echo ${{ toJson(github.event.client_payload.github.payload) }}
+        run: echo ${{ toJson(github.event.client_payload) }}
   approve:
     runs-on: ubuntu-latest
     needs: [check_comments_approve]
