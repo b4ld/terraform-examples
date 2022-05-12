@@ -1,7 +1,7 @@
-name: fullci-command
+name: fds-command
 on:
   repository_dispatch:
-    types: [fullci-command]
+    types: [fds-command]
 jobs:
   approve:
     runs-on: ubuntu-latest
@@ -9,7 +9,7 @@ jobs:
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1.1.1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PAT }}
           number: ${{ github.event.client_payload.github.payload.issue.number }}
   commentApprove:
     runs-on: ubuntu-latest
@@ -18,7 +18,7 @@ jobs:
       - name: Add reaction on success
         uses: peter-evans/create-or-update-comment@v2
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
           repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
           comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
           reaction-type: laugh
