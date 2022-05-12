@@ -1,10 +1,23 @@
-name: full-ci-command
-on:
-  repository_dispatch:
-    types: [full-ci-command]
+on: issue_comment
+name: Issue Comments
 jobs:
+  check_comments:
+    name: Check comments for /full-ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for Command
+        id: command
+        uses: xt0rted/slash-command-action@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          command: full-ci
+          reaction: "true"
+          reaction-type: "eyes"
+          allow-edits: "false"
+          permission-level: admin
   TFLint:
     runs-on: ubuntu-latest
+    needs: [check_comments]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -19,6 +32,7 @@ jobs:
         run: find ${{ github.workspace }} | grep tf$ | xargs -n1 dirname | xargs -IXXX -n1 /bin/sh -c 'set -o errexit; cd XXX; pwd; tflint --loglevel=info .; cd - >/dev/null'
   TFValidate:
     runs-on: ubuntu-latest
+    needs: [check_comments]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -42,6 +56,7 @@ jobs:
         run: ${{ github.workspace }}/bin/check_validate.sh
   Checks:
     runs-on: ubuntu-latest
+    needs: [check_comments]
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
@@ -62,7 +77,7 @@ jobs:
         run: ${{ github.workspace }}/bin/check_non_unique_data.sh && ${{ github.workspace }}/bin/check_non_unique_resources.sh && ${{ github.workspace }}/bin/check_non_unique_variable.sh
   ProvidersAWS:
     concurrency: provider_test_aws
-    needs: [TFLint, TFValidate, Checks]
+    needs: [TFLint, TFValidate, Checks, check_comments]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -87,7 +102,7 @@ jobs:
         run: ${{ github.workspace }}/bin/run_aws_examples.sh
   ProvidersGCP:
     concurrency: provider_test_gcp
-    needs: [TFLint, TFValidate, Checks]
+    needs: [TFLint, TFValidate, Checks, check_comments]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -113,7 +128,7 @@ jobs:
         run: GOOGLE_APPLICATION_CREDENTIALS=$GCP_CREDENTIALS_FILENAME ${{github.workspace}}/bin/run_gcp_examples.sh
   ProvidersLinode:
     concurrency: provider_test_linode
-    needs: [TFLint, TFValidate, Checks]
+    needs: [TFLint, TFValidate, Checks, check_comments]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -134,7 +149,7 @@ jobs:
         run: ${{github.workspace}}/bin/run_linode_examples.sh
   ProvidersDigitalocean:
     concurrency: provider_test_digitalocean
-    needs: [TFLint, TFValidate, Checks]
+    needs: [TFLint, TFValidate, Checks, check_comments]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -155,7 +170,7 @@ jobs:
         run: ${{github.workspace}}/bin/run_digitalocean_examples.sh
   ProvidersAzure:
     concurrency: provider_test_azure
-    needs: [TFLint, TFValidate, Checks]
+    needs: [TFLint, TFValidate, Checks, check_comments]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -187,7 +202,7 @@ jobs:
         run: ${{github.workspace}}/bin/run_azurerm_examples.sh
   ProvidersLocal:
     concurrency: provider_test_local
-    needs: [TFLint, TFValidate, Checks]
+    needs: [TFLint, TFValidate, Checks, check_comments]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -206,7 +221,7 @@ jobs:
         run: ${{github.workspace}}/bin/run_local_examples.sh
   commentFeedback:
     runs-on: ubuntu-latest
-    needs: [TFLint, TFValidate, Checks, ProvidersAWS, ProvidersGCP, ProvidersLinode, ProvidersDigitalocean, ProvidersAzure, ProvidersLocal]
+    needs: [check_comments, TFLint, TFValidate, Checks, ProvidersAWS, ProvidersGCP, ProvidersLinode, ProvidersDigitalocean, ProvidersAzure, ProvidersLocal]
     steps:
       - name: Add reaction on success
         uses: peter-evans/create-or-update-comment@v2
