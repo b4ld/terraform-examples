@@ -2,25 +2,27 @@ name: Main Comment Commands
 on:
   issue_comment:
     types: [created]
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: write
+  issues: write
+  packages: write
+  pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
 jobs:
   full-ci:
     runs-on: ubuntu-latest
-    permissions:
-      actions: write
-      checks: write
-      contents: write
-      deployments: write
-      issues: write
-      packages: write
-      pull-requests: write
-      repository-projects: write
-      security-events: write
-      statuses: write
     steps:
       - name: Perform Cloud Tests
         uses: peter-evans/slash-command-dispatch@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ env.GITHUB_TOKEN }}
           commands: full-ci
   # reviewAndApprove:
   #   runs-on: ubuntu-latest
