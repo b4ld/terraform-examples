@@ -6,6 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check for Command
+<<<<<<< HEAD
+=======
+        id: command
+>>>>>>> 9483864 (add final comments)
         uses: xt0rted/slash-command-action@v1.1.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
