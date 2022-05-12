@@ -11,7 +11,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           permission: write
-          commands: full-ci
+          commands: fullci
   # reviewAndApprove:
   #   runs-on: ubuntu-latest
   #   steps:

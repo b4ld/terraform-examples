@@ -1,7 +1,7 @@
-name: full-ci-command
+name: fullci-command
 on:
   repository_dispatch:
-    types: [full-ci-command]
+    types: [fullci-command]
 jobs:
   approve:
     runs-on: ubuntu-latest
