@@ -14,4 +14,3 @@ The following short checklist should be used to make sure your PR is of good qua
 - [ ] mergeable to main (no conflicts)
 - [ ] resolved issues linked
 - [ ] [Milestone](https://github.com/ContainerSolutions/terraform-examples/milestones) linked (if applicable)
-
